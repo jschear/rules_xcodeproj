@@ -23,6 +23,22 @@ bazel_dep(
     version = "4.6.0",
     repo_name = "build_bazel_rules_ios",
 )
+bazel_dep(
+    name = "rules_swift_package_manager",
+    version = "0.34.1",
+)
+swift_deps = use_extension(
+    "@rules_swift_package_manager//:extensions.bzl",
+    "swift_deps",
+)
+swift_deps.from_package(
+    resolved = "//:Package.resolved",
+    swift = "//:Package.swift",
+)
+use_repo(
+    swift_deps,
+    "swiftpkg_swift_log",
+)
 
 apple_cc_configure = use_extension(
     "@build_bazel_apple_support//crosstool:setup.bzl",

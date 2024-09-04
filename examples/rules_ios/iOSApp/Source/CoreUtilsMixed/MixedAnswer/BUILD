@@ -16,4 +16,7 @@ rules_ios_apple_framework(
     },
     public_headers = ["MixedAnswer.h"],
     visibility = ["//iOSApp:__subpackages__"],
+    deps = [
+        "@swiftpkg_swift_log//:Logging"
+    ]
 )
