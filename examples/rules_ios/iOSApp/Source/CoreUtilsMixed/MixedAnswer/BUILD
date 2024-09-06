@@ -2,6 +2,7 @@ load(
     "@build_bazel_rules_ios//rules:framework.bzl",
     rules_ios_apple_framework = "apple_framework",
 )
+load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 
 rules_ios_apple_framework(
     name = "MixedAnswer",
@@ -16,4 +17,12 @@ rules_ios_apple_framework(
     },
     public_headers = ["MixedAnswer.h"],
     visibility = ["//iOSApp:__subpackages__"],
+    deps = [
+        "dummy_library"
+    ]
+)
+
+swift_library(
+    name = "dummy_library",
+    srcs = ["Dummy.swift"]
 )
