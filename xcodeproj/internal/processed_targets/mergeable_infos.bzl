@@ -112,6 +112,32 @@ def _calculate_mergeable_info(
             swift = swift,
         )
 
+    if len(mergeable_infos) > 2:
+        rules_ios_swift_library_info = [info for info in mergeable_infos if info.id and info.id.split(" ")[0].endswith("_swift")]
+        rules_ios_objc_library_info = [info for info in mergeable_infos if info.id and info.id.split(" ")[0].endswith("_objc")]
+        swift = None
+        cc = None
+        if len(rules_ios_swift_library_info) == 1:
+            swift = rules_ios_swift_library_info[0]
+        if len(rules_ios_objc_library_info) == 1:
+            cc = rules_ios_objc_library_info[0]
+
+        if cc and swift:
+            return _handle_mixed_language_mergeable_infos(
+                cc = cc,
+                dynamic_frameworks = dynamic_frameworks,
+                product_type = product_type,
+                swift = swift,
+            )
+        elif cc:
+            return _cc_mergeable_info(mergeable_info = cc)
+        elif swift:
+            return _swift_mergeable_info(
+                dynamic_frameworks = dynamic_frameworks,
+                mergeable_info = swift,
+                product_type = product_type,
+            )
+
     # Unmergeable source target count
     return None
 
